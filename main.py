@@ -13,7 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 # Import your forms from the forms.py
 from forms import CreatePostForm,RegisterForm, LoginForm, CommentForm
-
+import os
 
 
 app = Flask(__name__)
