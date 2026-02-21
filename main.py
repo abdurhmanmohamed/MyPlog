@@ -29,7 +29,7 @@ login_manager.login_view = 'login'
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:zaki2141979@@db.sihpucvqbtuwcyncjuio.supabase.co:5432/postgres'
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
