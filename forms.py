@@ -3,7 +3,6 @@ from wtforms import StringField, SubmitField, EmailField,PasswordField
 from flask_wtf.file import FileField , FileAllowed
 
 from wtforms.validators import DataRequired, URL,Email
-from email_validator import validate_email
 from flask_ckeditor import CKEditorField
 
 
