@@ -236,4 +236,4 @@ def show_work(id):
     writer = db.get_or_404(User, id)
     return render_template('writer_work.html' , posts = writer.posts)
 if __name__ == "__main__":
-    app.run(debug=False, port =5432)
+    app.run(debug=False, port =5432 )
