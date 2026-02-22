@@ -113,13 +113,13 @@ def register():
             filename = secure_filename(img.filename)
             file_bytes = img.read()
 
-            supabase.storage.from_("abdo's files").upload(
+            supabase.storage.from_("db_imgs").upload(
                 f"uploads/{filename}",
                 file_bytes,
                 {"content-type": img.content_type}
             )
 
-            public_url = supabase.storage.from_("your-bucket-name").get_public_url(
+            public_url = supabase.storage.from_("db_imgs").get_public_url(
                 f"uploads/{filename}"
             )
             new_user = User(email = email, name = name, password = password, img=public_url)
