@@ -113,7 +113,7 @@ def register():
             filename = secure_filename(img.filename)
             file_bytes = img.read()
 
-            supabase.storage.from_("your-bucket-name").upload(
+            supabase.storage.from_("abdo's files").upload(
                 f"uploads/{filename}",
                 file_bytes,
                 {"content-type": img.content_type}
