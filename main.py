@@ -13,7 +13,7 @@ from werkzeug.utils import secure_filename
 # Import your forms from the forms.py
 from forms import CreatePostForm,RegisterForm, LoginForm, CommentForm
 import os
-
+from supabase import create_client
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
@@ -33,6 +33,10 @@ print("DATABASE_URL =", os.environ.get("DATABASE_URL"))
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 # TODO :making decorator to autharize the admin user
 def is_admin(func):
     @wraps(func)
@@ -107,8 +111,18 @@ def register():
             name = form.name.data
             img = form.img.data
             filename = secure_filename(img.filename)
-            img.save(os.path.join("static", "uploads", filename))
-            new_user = User(email = email, name = name, password = password, img="uploads/" + filename)
+            file_bytes = img.read()
+
+            supabase.storage.from_("your-bucket-name").upload(
+                f"uploads/{filename}",
+                file_bytes,
+                {"content-type": img.content_type}
+            )
+
+            public_url = supabase.storage.from_("your-bucket-name").get_public_url(
+                f"uploads/{filename}"
+            )
+            new_user = User(email = email, name = name, password = password, img=public_url)
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user)
